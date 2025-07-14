@@ -46,6 +46,20 @@ io.on("connection", (socket) => {
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
 
+// Add root route to handle "Cannot GET /" error
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "Chat App Backend API", 
+    status: "Server is running",
+    endpoints: {
+      status: "/api/status",
+      auth: "/api/auth",
+      messages: "/api/messages"
+    }
+  });
+});
+
+
 app.use("/api/status", (req, res) => res.send("Server is running"));
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
